@@ -8,21 +8,7 @@ require Tie::Hash;
 use String::Approx('amatch');
 
 @ISA     = qw(Exporter Tie::StdHash);
-$VERSION = '0.02';
-
-=pod
-
-=begin testing
-
-  use Tie::Hash::Approx;
-  my %hash;
-  my $x = tie %hash, 'Tie::Hash::Approx';
-
-  ok( ref $x eq 'Tie::Hash::Approx', "tie'ing hash to Tie::Hash::Approx"); 
-
-=end testing
-
-=cut
+$VERSION = '0.03';
 
 sub FETCH {
     my $this = shift;
@@ -48,52 +34,21 @@ sub FETCH {
     }
 }
 
-=pod
-
-=begin testing
-
-  %hash = (
-    key  => 'value',
-    kay  => 'another value',
-    stuff => 'yet another stuff',
-  );
-
-  ok( $hash{key} eq 'value', 'exact match' );
-  ok( $hash{staff} eq 'yet another stuff', 'approx match' );
-
-=end testing
-
-=begin testing
-
-  @res{ tied(%hash)->FETCH('koy') }++;
-
-  ok( exists($res{'value'}) && exists($res{'another value'}), 'wantarray approx match' );
-
-=end testing
-
-=cut
-
 sub EXISTS {
     my $this = shift;
     my $key  = shift;
 
     return undef unless %{$this};
+	if ( $key eq '' ){
+		return 1 if exists $this->{''};
+		return 0;
+	}
 
     return 1 if exists $this->{$key};
-    return if amatch( $key, keys( %{$this} ) );
+    return 1 if amatch( $key, keys( %{$this} ) );
+	return 0;
 }
 
-=pod
-
-=begin testing
-
-  ok( exists($hash{'key'}), 'exists exact match' );
-  ok( exists($hash{'staff'}), 'exists approx match' );
-  ok( !exists($hash{''}), 'exists empty match' );
-
-=end testing
-
-=cut
 
 sub DELETE {
     my $this = shift;
@@ -105,20 +60,6 @@ sub DELETE {
     # This will delete *all* the keys matching! 
     delete @{$this}{ @results };
 }
-
-=pod
-
-=begin testing
-
- delete $hash{koy};
- ok( !exists($hash{'key'}) && !exists($hash{'kay'}), 'deleting several approx matches');
-
- delete $hash{staff};
- ok( !exists($hash{'staff'}), 'deleting approx match');
-
-=end testing
-
-=cut
 
 1;
 

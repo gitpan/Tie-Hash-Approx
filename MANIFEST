@@ -1,6 +1,7 @@
-Approx.pm
-Changes
-README
-MANIFEST
 Makefile.PL
-t/Approx-embedded.t
+MANIFEST
+README
+Changes
+t/00basic.t
+t/01tie.t
+lib/Tie/Hash/Approx.pm
