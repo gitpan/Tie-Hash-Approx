@@ -1,4 +1,3 @@
-
 package Tie::Hash::Approx;
 use strict;
 use vars qw($VERSION @ISA);
@@ -8,8 +7,10 @@ require Tie::Hash;
 
 use String::Approx('amatch');
 
-@ISA       = qw(Exporter Tie::StdHash);
-$VERSION = '0.01';
+@ISA     = qw(Exporter Tie::StdHash);
+$VERSION = '0.02';
+
+=pod
 
 =begin testing
 
@@ -47,6 +48,8 @@ sub FETCH {
     }
 }
 
+=pod
+
 =begin testing
 
   %hash = (
@@ -80,6 +83,8 @@ sub EXISTS {
     return if amatch( $key, keys( %{$this} ) );
 }
 
+=pod
+
 =begin testing
 
   ok( exists($hash{'key'}), 'exists exact match' );
@@ -100,6 +105,8 @@ sub DELETE {
     # This will delete *all* the keys matching! 
     delete @{$this}{ @results };
 }
+
+=pod
 
 =begin testing
 

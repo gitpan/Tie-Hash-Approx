@@ -6,7 +6,7 @@ WriteMakefile(
     'NAME'         => 'Tie::Hash::Approx',
     'VERSION_FROM' => 'Approx.pm',
     'PREREQ_PM'    => { 'Test::More' => 0,
-    			'String::Approx' => 1,},
+		    			'String::Approx' => 1,},
     'LIBS'         => [''],
     'DEFINE'       => '',
     'INC'          => '',
